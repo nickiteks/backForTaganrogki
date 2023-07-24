@@ -25,8 +25,17 @@ SECRET_KEY = "django-insecure-a0mxtzow13$^=%96)dz%i+4$ebyi73=f4s^=tpph)%m46=r^mg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+]
+
+CORS_ALLOW_HEADERS = [
+    'Content-Type',
+]
 
 # Application definition
 
@@ -38,7 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'backend',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders',
 ]
 
 APPEND_SLASH=False
@@ -51,9 +61,16 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "django_react.urls"
+
+REST_FRAMEWORK = {"DEFAULT_PERMISSION_CLASSES": [
+    "rest_framework.permissions.AllowAny"]}
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 TEMPLATES = [
     {
