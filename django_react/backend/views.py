@@ -1,3 +1,5 @@
+import os
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import torch
@@ -20,12 +22,14 @@ class DataCreate(APIView):
 
             for col in collumns:
                 model = Net()
-                model.load_state_dict(torch.load(f'/Users/nikita/PycharmProjects/back/django_react/backend/ML_Models'
-                                                 f'/model{col}.pytorch'))
+                file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'./ML_Models/model{col}.pytorch')
+                print(file_path)
+                model.load_state_dict(torch.load(file_path))
                 model.eval()
                 models.append(model)
 
-            im = io.imread(f'/Users/nikita/PycharmProjects/back/django_react{serializer.data["file"]}')
+            file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'..{serializer.data["file"]}')
+            im = io.imread(file_path)
             im = torch.tensor(im, dtype=torch.float32)
             im.transpose_(0, 2)
             im = torch.unsqueeze(im, 0)
