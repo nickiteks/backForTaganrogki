@@ -15,7 +15,6 @@ class DataCreate(APIView):
         serializer = DataSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            print(serializer.data)
 
             collumns = ['Style', 'Noice', 'Place']
             models = []
@@ -23,8 +22,9 @@ class DataCreate(APIView):
             for col in collumns:
                 model = Net()
                 file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'./ML_Models/model{col}.pytorch')
-                print(file_path)
-                model.load_state_dict(torch.load(file_path))
+                state_dict = torch.load(file_path, map_location='cpu')
+                model.load_state_dict(state_dict)
+                model = model.cpu()
                 model.eval()
                 models.append(model)
 
