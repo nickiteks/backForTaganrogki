@@ -41,8 +41,12 @@ class DataCreate(APIView):
 
             output_data = [i[0].index(max(i[0])) for i in results]
 
+            data = Data.objects.last()
+
+            print(data.file.url)
+
             output_json = {
-                'file': serializer.data["file"],
+                'file': file_path,
                 'Style': output_data[0],
                 'Noice': output_data[1],
                 'Place': output_data[2]
